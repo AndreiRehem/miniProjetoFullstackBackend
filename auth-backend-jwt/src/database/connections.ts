@@ -20,6 +20,12 @@ const connectDB = async () => {
         console.error("Falha na conexão com MongoDB:", error);
         process.exit(1);
     }
+
+    mongoose.connect('mongodb://admin:senha123@localhost:27017/', {
+    authSource: 'admin'
+    })
+    .then(() => console.log('MongoDB conectado!'))
+    .catch(err => console.error('Erro ao conectar:', err));
 };
 
 export default connectDB;
