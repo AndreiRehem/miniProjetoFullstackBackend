@@ -1,25 +1,27 @@
 import mongoose from 'mongoose';
-import * as dotenv from 'dotenv';
-dotenv.config(); 
 
 const connectDB = async (): Promise<void> => {
-    const uri = process.env.NODE_ENV === 'production'
-        ? process.env.MONGO_URI_PROD
-        : process.env.MONGO_URI;
+  try {
+    const mongoURI = process.env.MONGO_URI;
 
-    if (!uri) {
-        console.error("ERRO: Variável de ambiente MONGO_URI ou MONGO_URI_PROD não está definida.");
-        process.exit(1); // Encerra o processo se a URI não for encontrada
+    if (!mongoURI) {
+      console.error('ERRO: A variável de ambiente MONGO_URI não foi definida.');
+      process.exit(1);
     }
+    
+    
+    const options = {
+      dbName: process.env.MONGO_DB_NAME,
+    };
 
-    try {
-        await mongoose.connect(uri);
-        console.log('MongoDB conectado com sucesso!');
-    } catch (error) {
-        // Usa `error as Error` para acessar a propriedade message
-        console.error(`ERRO ao conectar ao MongoDB: ${(error as Error).message}`);
-        process.exit(1); // Encerra o processo em caso de falha na conexão
-    }
+    await mongoose.connect(mongoURI, options);
+    console.log('MongoDB conectado com sucesso.');
+
+  } catch (error: any) { 
+    console.error('Erro na conexão com o MongoDB:', error.message);
+    process.exit(1); 
+  }
 };
+
 
 export default connectDB;
