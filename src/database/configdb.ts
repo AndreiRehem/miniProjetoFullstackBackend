@@ -1,27 +1,16 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const connectDB = async (): Promise<void> => {
+const connectDB = async (uri: string, dbName: string) => {
   try {
-    const mongoURI = process.env.MONGO_URI;
-
-    if (!mongoURI) {
-      console.error('ERRO: A variável de ambiente MONGO_URI não foi definida.');
-      process.exit(1);
+    if (!uri) {
+      throw new Error("ERRO: A variável de ambiente MONGO_URI não foi definida.");
     }
-    
-    
-    const options = {
-      dbName: process.env.MONGO_DB_NAME,
-    };
 
-    await mongoose.connect(mongoURI, options);
-    console.log('MongoDB conectado com sucesso.');
-
-  } catch (error: any) { 
-    console.error('Erro na conexão com o MongoDB:', error.message);
-    process.exit(1); 
+    await mongoose.connect(uri, { dbName });
+    console.log(`✅ MongoDB conectado com sucesso ao banco: ${dbName}`);
+  } catch (error) {
+    console.error("❌ Erro ao conectar ao MongoDB:", error);
   }
 };
-
 
 export default connectDB;
