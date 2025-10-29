@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import * as dotenv from "dotenv";
 import connectDB from "./database/configdb";
 import authRoutes from "./routes/authRoutes";
+import chatRoutes from "./routes/chatRoutes";
 
 // 1️⃣ Carrega o arquivo .env
 dotenv.config();
@@ -19,7 +20,7 @@ const MONGO_DB_NAME = isProduction
 
 const PORT = process.env.PORT || 3000;
 
-// 3️⃣ Loga o ambiente e a URI (parcial, pra evitar expor senha)
+// 3️⃣ Loga o ambiente e a URI (sem expor senha)
 console.log("===============================================");
 console.log(`✅ Ambiente: ${isProduction ? "Produção" : "Desenvolvimento"}`);
 console.log(`🌍 Conectando ao MongoDB: ${MONGO_URI}`);
@@ -34,6 +35,7 @@ app.use(express.json());
 
 // 6️⃣ Rotas
 app.use("/", authRoutes);
+app.use("/chat", chatRoutes); // ✅ Rota principal do chatbot
 
 // 7️⃣ Conecta ao MongoDB
 connectDB(MONGO_URI!, MONGO_DB_NAME!);
