@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-
+console.log("🔑 GEMINI_API_KEY:", process.env.GEMINI_API_KEY ? "OK" : "NÃO ENCONTRADA");
 if (!GEMINI_API_KEY) {
   throw new Error("❌ GEMINI_API_KEY não está definida no .env");
 }
