@@ -1,0 +1,167 @@
+_type: export
+__export_format: 4
+__export_date: 2025-10-26T00:00:00.000Z
+__export_source: insomnia.desktop.app:v10.0.0
+
+resources:
+  # ================================
+  # Environment
+  # ================================
+  - _id: env_env_1
+    parentId: null
+    type: environment
+    name: "MiniProjeto Backend"
+    data:
+      base_url: "https://seu-deploy-vercel.vercel.app"
+      jwt_token: "COLE_SEU_TOKEN_AQUI"
+    dataPropertyOrder:
+      "&":
+        - base_url
+        - jwt_token
+    color: "#007AFF"
+
+  # ================================
+  # Folder: Auth
+  # ================================
+  - _id: fld_auth
+    parentId: null
+    type: request_group
+    name: "Auth"
+    environment: {}
+    environmentPropertyOrder: null
+
+  # Registro de usuário
+  - _id: req_register
+    parentId: fld_auth
+    type: request
+    name: "POST - /register (criar usuário)"
+    method: POST
+    url: "{{ _.base_url }}/register"
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "name": "Usuário Teste",
+          "email": "teste@teste.com",
+          "password": "123456"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+
+  # Login
+  - _id: req_login
+    parentId: fld_auth
+    type: request
+    name: "POST - /login (obter token)"
+    method: POST
+    url: "{{ _.base_url }}/login"
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "email": "teste@teste.com",
+          "password": "123456"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+
+  # ================================
+  # Folder: Chat (Protegido)
+  # ================================
+  - _id: fld_chat
+    parentId: null
+    type: request_group
+    name: "Chat (Protegido)"
+    environment: {}
+    environmentPropertyOrder: null
+
+  # Enviar mensagem (SUCESSO)
+  - _id: req_chat_send_success
+    parentId: fld_chat
+    type: request
+    name: "POST - /chat (enviar mensagem)"
+    method: POST
+    url: "{{ _.base_url }}/chat"
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "message": "Olá, chatbot!"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.jwt_token }}"
+
+  # Histórico (SUCESSO)
+  - _id: req_chat_get_success
+    parentId: fld_chat
+    type: request
+    name: "GET - /chat (histórico de mensagens)"
+    method: GET
+    url: "{{ _.base_url }}/chat"
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.jwt_token }}"
+
+  # ================================
+  # Folder: Erros
+  # ================================
+  - _id: fld_errors
+    parentId: null
+    type: request_group
+    name: "Casos de Erro"
+    environment: {}
+    environmentPropertyOrder: null
+
+  # Erro: Sem token
+  - _id: req_error_no_token
+    parentId: fld_errors
+    type: request
+    name: "❌ 401 - Sem token"
+    method: GET
+    url: "{{ _.base_url }}/chat"
+
+  # Erro: Token inválido
+  - _id: req_error_invalid_token
+    parentId: fld_errors
+    type: request
+    name: "❌ 403 - Token inválido"
+    method: GET
+    url: "{{ _.base_url }}/chat"
+    headers:
+      - name: Authorization
+        value: "Bearer TOKEN_INVALIDO_EXEMPLO"
+
+  # Erro: Acesso indevido (simulado)
+  - _id: req_error_forbidden
+    parentId: fld_errors
+    type: request
+    name: "❌ 403 - Acesso indevido a outro usuário (simulado)"
+    method: GET
+    url: "{{ _.base_url }}/chat?userId=outroUsuario"
+    headers:
+      - name: Authorization
+        value: "Bearer {{ _.jwt_token }}"
+
+  # Erro: Requisição mal formatada
+  - _id: req_error_bad_request
+    parentId: fld_errors
+    type: request
+    name: "❌ 400 - Requisição mal formatada"
+    method: POST
+    url: "{{ _.base_url }}/chat"
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "mensagem": "Campo incorreto"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ _.jwt_token }}"
