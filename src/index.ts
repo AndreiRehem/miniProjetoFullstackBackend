@@ -45,6 +45,7 @@ app.use(
   })
 );
 
+app.options("*", cors());
 // 5️⃣ Middlewares globais
 app.use(express.json());
 
