@@ -37,7 +37,8 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://mini-projeto-fullstack-frontend-p4ijbm88d-andreirehems-projects.vercel.app",
-      "https://mini-projeto-fullstack-frontend.vercel.app"
+      "https://mini-projeto-fullstack-frontend.vercel.app",
+      "https://frontendmongo.andreirehem.dev"
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
