@@ -32,11 +32,18 @@ console.log("===============================================");
 // 4️⃣ Inicializa o app Express
 const app: Application = express();
 
-app.use(cors({
-  origin: ["http://localhost:3000","http://mini-projeto-fullstack-frontend.vercel.app","https://mini-projeto-fullstack-frontend-p4ijbm88d-andreirehems-projects.vercel.app/"], // se quiser adicionar produção depois, só incluir aqui
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://mini-projeto-fullstack-frontend-p4ijbm88d-andreirehems-projects.vercel.app",
+      "https://mini-projeto-fullstack-frontend.vercel.app"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 
 // 5️⃣ Middlewares globais
 app.use(express.json());
