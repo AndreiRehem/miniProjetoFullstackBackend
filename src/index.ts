@@ -33,7 +33,7 @@ console.log("===============================================");
 const app: Application = express();
 
 app.use(cors({
-  origin: ["http://localhost:3000"], // se quiser adicionar produção depois, só incluir aqui
+  origin: ["http://localhost:3000","http://mini-projeto-fullstack-frontend.vercel.app"], // se quiser adicionar produção depois, só incluir aqui
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true,
 }));
